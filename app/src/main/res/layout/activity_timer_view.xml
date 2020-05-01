@@ -5,30 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".TimerViewActivity">
+    tools:context=".TimerViewActivity"
+    >
 
-    <androidx.core.widget.ContentLoadingProgressBar
-        android:id="@+id/contentLoadingProgressBar"
-        android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    <androidx.core.widget.ContentLoadingProgressBar-->
+<!--        android:id="@+id/contentLoadingProgressBar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="32dp"-->
+<!--        android:layout_marginTop="80dp"-->
+<!--        android:layout_marginLeft="8dp"-->
+<!--        android:layout_marginRight="8dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <ImageButton
-        android:id="@+id/imageButton_pause"
-        android:layout_width="65dp"
-        android:layout_height="68dp"
-        android:layout_marginTop="32dp"
-        android:background="#00FFFFFF"
-        android:onClick="pauseUnpauseTimer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_remainingTime"
-        app:srcCompat="@android:drawable/ic_media_pause" />
 
     <TextView
         android:id="@+id/textView_remainingTime"
@@ -39,7 +29,22 @@
         android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contentLoadingProgressBar" />
+        app:layout_constraintBottom_toTopOf="@+id/imageButton_pause"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imageButton_pause"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="32dp"
+        android:background="#00FFFFFF"
+        android:onClick="pauseUnpauseTimer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:srcCompat="@android:drawable/ic_media_pause"
+        android:scaleType="fitCenter" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

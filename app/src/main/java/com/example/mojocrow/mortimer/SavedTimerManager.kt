@@ -48,7 +48,7 @@ class SavedTimerManager (context: Context, saveListFileName: String = "SAVED_TIM
                 else -> ""
             }
             if (prefs.contains("${notificationIntKeys[1]}$timerId")) {
-                notificationDescription += prefs.getInt("${notificationIntKeys[1]}$timerId", -1)
+                notificationDescription += "${prefs.getInt("${notificationIntKeys[1]}$timerId", -1)} "
             }
             notificationDescription += when (prefs.getInt(
                 "${notificationIntKeys[2]}$timerId",

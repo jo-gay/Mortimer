@@ -12,57 +12,79 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.ContentLoadingProgressBar
 
+//work in progress: deal with screen rotation changes. This
+//will require timer task to be set up on a separate thread.
 
 class TimerViewActivity : AppCompatActivity() {
-
-    lateinit var progressBar: ContentLoadingProgressBar
+    private val TIMER_RUNNING = "timer_running"
+    private var isRunning = false
+//    private lateinit var progressBar: ContentLoadingProgressBar
+    private lateinit var savedTimerMan: SavedTimerManager
     lateinit var progressText: TextView
     lateinit var pauseButton: ImageView
-    var timerId: String? = ""
+    var timerId: String = ""
     var timerLength: Int = 0 //length in seconds
-    var finished: Boolean = false
+//    var finished: Boolean = false
     lateinit var timer: MorTimer
 
-    var notificationType: Int? = null
-    var notificationDuration: Int? = null
-    var notificationUnit: Int? = null
-    var notificationBeforeAfter: Int? = null
+    var notificationType: Int = -1
+    var notificationDuration: Int = -1
+    var notificationUnit: Int = -1
+    var notificationBeforeAfter: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timer_view)
-        progressBar = findViewById(R.id.contentLoadingProgressBar)
-        progressBar.progress = 50
+//        progressBar = findViewById(R.id.contentLoadingProgressBar)
+//        progressBar.progress = 50
         progressText = findViewById(R.id.textView_remainingTime)
         pauseButton = findViewById(R.id.imageButton_pause)
 
-        readTimerDetails()
-        setupTimer(timerLength.toLong()*1000)
+        savedTimerMan = SavedTimerManager(this)
+
+        if (savedInstanceState == null) {
+            // We are starting fresh:
+            readTimerDetails()
+            setupTimer(timerLength.toLong() * 1000)
+        }
+        else {
+            // activity restarted because of screen orientation change etc. Don't want to restart
+            // the timer. First check whether it was running
+            if (savedInstanceState.getBoolean(TIMER_RUNNING, false)) {
+                Log.d("debugTrace", "activity restarted while timer was running")
+            }
+        }
     }
 
-    /* For now we will cancel the timer if the user exits the timer
-    view screen. Todo later: keep timer running in background and list on main activity screen
-     */
     override fun onDestroy() {
+        /* For now we will cancel the timer if the user exits the timer
+        view screen. Todo later: keep timer running in background and list on main activity screen
+         */
         super.onDestroy()
         timer.cancel()
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        /* If the screen orientation changes, the timer will be destroyed and restarted.
+        *  Try to keep it alive by saving the state. */
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(TIMER_RUNNING, isRunning)
+        Log.d("debugTrace", "SaveInstanceState triggered. Timer is currently running? $isRunning")
+    }
+
     private fun readTimerDetails() {
         val caller = intent
-        timerId = caller.getStringExtra("timerId")
-        if (timerId == null) {
+        timerId = caller.getStringExtra("timerId") ?: ""
+        if (timerId == "") {
             Log.e("debugTrace", "No timer Id received from intent - unable to proceed")
             finish()
         }
-        val preferences = getSharedPreferences("SAVED_TIMERS", Context.MODE_PRIVATE)
-        timerLength = preferences.getInt("Length$timerId", 0)
-
-        notificationType = preferences.getInt("NotificationType$timerId", -1)
-        notificationDuration = preferences.getInt("NotificationDuration$timerId", -1)
-        notificationUnit = preferences.getInt("NotificationUnit$timerId", -1)
-        notificationBeforeAfter = preferences.getInt("NotificationBeforeAfter$timerId", -1)
-
+        timerLength = savedTimerMan.getLength(timerId)
+        val notnDetails = savedTimerMan.getNotificationValues(timerId)
+        notificationType = notnDetails[0]
+        notificationDuration = notnDetails[1]
+        notificationUnit = notnDetails[2]
+        notificationBeforeAfter = notnDetails[3]
         Log.d("debugTrace", "Starting a timer with id $timerId and length $timerLength")
         Log.d("debugTrace", "$timerId has notification type $notificationType after $notificationDuration of unit $notificationUnit before/after $notificationBeforeAfter")
     }
@@ -129,11 +151,13 @@ class TimerViewActivity : AppCompatActivity() {
         var paused = false
         var remaining = millisecs
         var nextNotification: Long = -1 //time to next notification in ms
+
         init {
             calculateNextNotificationTime(millisecs)
         }
 
         fun pauseUnpause() {
+            isRunning = paused
             paused = ! paused
             Log.d("debugTrace", "timer paused = $paused")
         }
@@ -158,6 +182,7 @@ class TimerViewActivity : AppCompatActivity() {
             pauseButton.setImageResource(android.R.drawable.ic_media_next)
             remaining = timerLength.toLong() * 1000
             paused = true
+            isRunning = false
             timerTriggered()
             Log.d("debugTrace", "timer onFinish()")
         }
@@ -171,7 +196,7 @@ class TimerViewActivity : AppCompatActivity() {
             return "%02d:%02d:%02d:%03d".format(hrs,mins,secs,msecs)
         }
 
-        fun calculateNextNotificationTime(millisUntilFinished: Long) {
+        private fun calculateNextNotificationTime(millisUntilFinished: Long) {
             if (notificationType == -1) {
                 nextNotification = -1
                 return
