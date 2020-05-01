@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".CreateTimerActivity">
+
+    <TextView
+        android:id="@+id/textView_setTimerDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/set_timer_duration"
+        android:textColor="@color/colorHeaderText"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutCompat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_setTimerDuration">
+
+        <NumberPicker
+            android:id="@+id/picker_createTimerHour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.Picker"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <NumberPicker
+            android:id="@+id/picker_createTimerMin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:theme="@style/AppTheme.Picker"
+            app:layout_constraintStart_toEndOf="@id/picker_createTimerHour"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <NumberPicker
+            android:id="@+id/picker_createTimerSec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:theme="@style/AppTheme.Picker"
+            app:layout_constraintStart_toEndOf="@id/picker_createTimerMin"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <TextView
+        android:id="@+id/textView_addNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/add_notification"
+        android:textColor="@color/colorHeaderText"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spinner_notificationOnce"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/placeholder"
+        app:layout_constraintStart_toStartOf="@+id/textView_addNotification"
+        app:layout_constraintTop_toTopOf="@+id/picker_notificationInterval"
+        app:layout_constraintBottom_toBottomOf="@id/picker_notificationInterval"
+        />
+
+    <NumberPicker
+        android:id="@+id/picker_notificationInterval"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:theme="@style/AppTheme.Picker"
+        app:layout_constraintStart_toEndOf="@+id/spinner_notificationOnce"
+        app:layout_constraintTop_toBottomOf="@+id/textView_addNotification"
+        />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spinner_notificationUnits"
+        android:layout_height="wrap_content"
+        android:layout_width="@+id/spinner_notificationBefore"
+        android:text="@string/placeholder"
+        app:layout_constraintStart_toEndOf="@+id/picker_notificationInterval"
+        app:layout_constraintTop_toTopOf="@+id/picker_notificationInterval" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spinner_notificationBefore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/placeholder"
+        app:layout_constraintStart_toEndOf="@+id/picker_notificationInterval"
+        app:layout_constraintBottom_toBottomOf="@+id/picker_notificationInterval"/>
+
+    <ImageButton
+        android:id="@+id/button_addNotification"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="#00808080"
+        android:onClick="deleteNotification"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner_notificationBefore"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/spinner_notificationBefore"
+        app:layout_constraintTop_toTopOf="@+id/spinner_notificationUnits"
+        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+
+
+
+    <Button
+        android:id="@+id/button_cancelCreateTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginBottom="36dp"
+        android:background="@color/colorBackButton"
+        android:onClick="cancelCreateTimer"
+        android:text="@string/cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_saveTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="36dp"
+        android:layout_marginRight="36dp"
+        android:layout_marginBottom="36dp"
+        android:background="@color/colorBackButton"
+        android:onClick="saveCreateTimer"
+        android:text="@string/save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0" />
+
+    <Button
+        android:id="@+id/button_startTimer"
+        android:layout_width="75dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/colorActionButton"
+        android:contentDescription="@string/save_and_start_the_timer"
+        android:drawableTop="@android:drawable/ic_media_play"
+        android:onClick="activateTimer"
+        android:text="@string/start"
+        app:layout_constraintBottom_toTopOf="@+id/button_cancelCreateTimer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

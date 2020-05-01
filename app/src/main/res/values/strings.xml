@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Mortimer</string>
+    <string name="create_timer">Create timer</string>
+    <string name="create_alarm">Create alarm</string>
+    <string name="mortimer">Mortimer</string>
+    <string name="currently_active">Currently active</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="saved">Saved timers</string>
+    <string name="save_and_start_the_timer">Save and start the timer</string>
+    <string name="add_reminder">Add reminder</string>
+    <string name="start">Start</string>
+    <string name="add_notification">Add notification</string>
+    <string name="add">Add</string>
+    <string name="set_timer_duration">Set timer duration</string>
+    <string name="once">Once</string>
+    <string name="every">Every</string>
+    <string name="before_end">Before end</string>
+    <string name="after_beginning">After beginning</string>
+    <string name="hours">Hrs</string>
+    <string name="mins">Mins</string>
+    <string name="secs">Secs</string>
+    <string name="remaining_time">Remaining Time</string>
+    <string name="placeholder">Placeholder</string>
+    <string-array name="onceEvery">
+        <item>@string/once</item>
+        <item>@string/every</item>
+    </string-array>
+    <string-array name="beforeAfter">
+        <item>@string/before_end</item>
+        <item>@string/after_beginning</item>
+    </string-array>
+    <string-array name="units">
+        <item>@string/hours</item>
+        <item>@string/mins</item>
+        <item>@string/secs</item>
+    </string-array>
+</resources>
