@@ -12,5 +12,5 @@ which notifies me every 60 minutes and can be paused until I start work again.
 ---
 
 This is 
-1. A work in progress
+1. A work in progress (but I am already using it myself and it works!)
 2. My first attempt with kotlin - advice appreciated
